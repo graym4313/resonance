@@ -1,4 +1,5 @@
 #!/bin/bash
+
 cd /home/alfeaton/resonance.macropus.org
 
 # delete files older than 7 days

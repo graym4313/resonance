@@ -11,7 +11,6 @@ list($programmes, $future) = $r->load_files();
   <link href='http://fonts.googleapis.com/css?family=Nunito:regular,bold' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Cabin+Sketch:bold' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="style.css">
-  <link rel="shortcut icon" href="favicon.ico">
 </head>
 
 <body>
@@ -24,7 +23,7 @@ list($programmes, $future) = $r->load_files();
           <? foreach ($programmes as $item) $r->print_programme($item, false); ?>
       </td>
       <td class="listing" id="future">
-          <? $r->old_date = null; foreach ($future as $item) $r->print_programme($item, true); ?>
+          <? $r->oldDate = null; foreach ($future as $item) $r->print_programme($item, true); ?>
       </td>
     </tr>
     <tr id="footer">
@@ -34,12 +33,12 @@ list($programmes, $future) = $r->load_files();
     </tr>
   </table>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/swfobject/2/swfobject.js"></script>
 
-  <?php if ((stripos($_SERVER['HTTP_USER_AGENT'], 'iphone') === FALSE) && (stripos($_SERVER['HTTP_USER_AGENT'], 'songbird') === FALSE)): ?>
+  <? if ((stripos($_SERVER['HTTP_USER_AGENT'], 'iphone') === false) && (stripos($_SERVER['HTTP_USER_AGENT'], 'songbird') === false)): ?>
     <script>var showPlayer = true;</script>
-  <?php endif; ?>
+  <? endif; ?>
 
   <script src="player.js"></script>
 

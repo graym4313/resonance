@@ -1,0 +1,6 @@
+#Options +FollowSymLinks
+
+<IfModule mod_security.c>
+ SecFilterSelective REQUEST_URI ".mp3$" "allow,pass"
+</IfModule>
+

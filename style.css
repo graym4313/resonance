@@ -1,0 +1,19 @@
+body { font-family: "Nunito", Helvetica, Arial, sans-serif; }
+td { vertical-align: top; }
+ol { list-style-type: none; padding: 0; }
+#header .track { padding-left: 10px; }
+a.playing { border-left: 4px solid #FA0; padding-left: 6px; outline: none; }
+a { text-decoration: none; }
+a: hover { text-decoration: underline; }
+h2 { font-size: 150%; font-family: 'Cabin Sketch'; }
+.title { font-weight: bold; }
+.icon { margin-left: 10px; }
+.content { margin-left: 6em; color: #444; }
+.content a { color: inherit; }
+#future > ol > li: first-of-type { border: 1px solid #aaa; border-width: 1px 0; padding: 10px 0; }
+#footer { text-align: right; }
+#main .listing { padding: 10px; width: 30%; min-width: 20em; }
+#player { position: fixed; bottom: 0; left: 0; }
+.time { padding-right: 1em; }
+#main { padding: 0; margin: 0; border-collapse: collapse; }
+

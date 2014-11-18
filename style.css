@@ -45,6 +45,7 @@ h2 {
 .content {
     margin-left: 6em;
     color: #444;
+    word-break: break-word;
 }
 
 .content a {
@@ -72,6 +73,10 @@ h2 {
     position: fixed;
     bottom: 0;
     left: 0;
+    right: 0;
+    height: 100px;
+    width: 400px;
+    background: #fff;
 }
 
 .time {

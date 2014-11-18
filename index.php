@@ -8,14 +8,15 @@ list($programmes, $future) = $r->load_files();
 <head>
   <meta charset="UTF-8">
   <title>Resonance104.4fm archive</title>
-  <link href='http://fonts.googleapis.com/css?family=Nunito:regular,bold' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Cabin+Sketch:bold' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Nunito:regular,bold' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Cabin+Sketch:bold' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div id="player"></div>
-  <div id="header"><a class="track" href="http://icecast.commedia.org.uk:8000/resonance_hi.mp3">Listen live to Resonance104.4fm</a></div>
+  <object id="player"></object>
+
+  <div id="header"><a class="track" href="http://radio.canstream.co.uk:8004/live.mp3">Listen live to Resonance104.4fm</a></div>
 
   <table id="main">
     <tr>
@@ -33,15 +34,9 @@ list($programmes, $future) = $r->load_files();
     </tr>
   </table>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/swfobject/2/swfobject.js"></script>
-
-  <? if ((stripos($_SERVER['HTTP_USER_AGENT'], 'iphone') === false) && (stripos($_SERVER['HTTP_USER_AGENT'], 'songbird') === false)): ?>
-    <script>var showPlayer = true;</script>
-  <? endif; ?>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="player.js"></script>
-
 </body>
 </html>
+
 

@@ -2,6 +2,8 @@
 
 date_default_timezone_set('Europe/London');
 
+require __DIR__ . '/config.php';
+
 /**
  * Handle recording the stream to files and outputting HTML
  */
@@ -9,8 +11,9 @@ class Resonance
 {
     public $now;
     public $oldDate;
-    private $calendar = 'feed.xml';
-    public $stream = 'http://icecast.commedia.org.uk:8000/resonance_hi.mp3';
+    private $calendar = 'calendar.json';
+    //public $stream = 'http://icecast.commedia.org.uk:8000/resonance_hi.mp3';
+    public $stream = 'http://radio.canstream.co.uk:8004/live.mp3';
 
     /**
      * Constructor
@@ -57,10 +60,10 @@ class Resonance
             return;
         }
 
-        require_once(__DIR__ . 'getid3/getid3.php');
+        require_once(__DIR__ . '/getid3/getid3.php');
         $getID3 = new getID3;
         $getID3->setOption(array('encoding' => 'UTF-8'));
-        require_once(__DIR__ . 'getid3/write.php');
+        require_once(__DIR__ . '/getid3/write.php');
 
         $programmes = $this->load_calendar();
 
@@ -126,39 +129,41 @@ class Resonance
     {
         $day = 60 * 60 * 24;
 
-        $url = sprintf(
-            'http://www.google.com/calendar/feeds/schedule@resonancefm.com/public/full?start-min=%sT12:00:00&start-max=%s&orderby=starttime&sortorder=ascending&singleevents=true&ctz=Europe/London&max-results=1000',
-            date('Y-m-d', $this->now - $day),
-            date('Y-m-d', $this->now + $day * 2)
+        $params = array(
+            'maxResults' => 1000,
+            'orderBy' => 'startTime',
+            'singleEvents' => 'true',
+            'timeMin' => date(DATE_ATOM, $this->now - $day),
+            'timeMax' => date(DATE_ATOM, $this->now + $day * 2),
+            'timeZone' => 'Europe/London',
+            'key' => GOOGLE_API_KEY,
         );
+
+        $url = 'https://www.googleapis.com/calendar/v3/calendars/schedule%40resonancefm.com/events?' . http_build_query($params);
 
         if (!file_exists($this->calendar)) {
             file_put_contents($this->calendar, file_get_contents($url));
         }
 
-        $dom = new DOMDocument();
-        $dom->load($this->calendar);
-
-        $xpath = new DOMXPath($dom);
-        $xpath->registerNamespace('atom', 'http://www.w3.org/2005/Atom');
-        $xpath->registerNamespace('gd', 'http://schemas.google.com/g/2005');
+        $calendar = json_decode(file_get_contents($this->calendar), true);
 
         $items = array();
 
-        foreach ($xpath->query('atom:entry') as $entry) {
-            $content = trim($xpath->query("atom:content[@type='text']", $entry)->item(0)->textContent);
-            $content = str_replace('<BR>', '', $content);
-            $content = preg_replace('/\n+/', "\n", $content);
-            $content = preg_replace('/(email|web|presenter|producer|links): /i', "\n" . '$1: ', $content);
-
-            /** @var $when DOMElement */
-            $when = $xpath->query('gd:when', $entry)->item(0);
+        foreach ($calendar['items'] as $event) {
+            if (isset($event['description'])) {
+                $content = trim($event['description']);
+                $content = str_replace('<BR>', '', $content);
+                $content = preg_replace('/\n+/', "\n", $content);
+                $content = preg_replace('/(email|web|presenter|producer|links): /i', "\n" . '$1: ', $content);
+            } else {
+                $content = '';
+            }
 
             $items[] = array(
-                'title' => $xpath->query("atom:title[@type='text']", $entry)->item(0)->textContent,
+                'title' => $event['summary'],
                 'content' => $content,
-                'start' => strtotime($when->getAttribute('startTime')),
-                'end' => strtotime($when->getAttribute('endTime')),
+                'start' => strtotime($event['start']['dateTime']),
+                'end' => strtotime($event['end']['dateTime']),
             );
         }
 
@@ -242,7 +247,7 @@ class Resonance
             '$1<br>$2: ',
             $item['content']
         );
-        $item['content'] = preg_replace_callback('!https?://\S+!', array($this, 'make_link'), $item['content']);
+        //$item['content'] = preg_replace_callback('!https?://\S+!', array($this, 'make_link'), $item['content']);
         $item['content'] = preg_replace_callback('/ www\.\S+/', array($this, 'make_link_www'), $item['content']);
         $item['content'] = str_replace('href=www', 'href=http://www', $item['content']);
         include __DIR__ . '/programme.php';

@@ -7,7 +7,7 @@ find audio -type f -mtime +7 -exec rm '{}' \;
 
 kill `cat pid`
 
-rm 'feed.xml'
+rm 'calendar.json'
 
 /usr/local/bin/php-5.3 record.php &
 

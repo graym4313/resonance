@@ -16,7 +16,7 @@ list($programmes, $future) = $r->load_files();
 <body>
   <object id="player"></object>
 
-  <div id="header"><a class="track" href="http://"http://54.77.136.103:8000/resonance">Listen live to Resonance104.4fm</a></div>
+  <div id="header"><a class="track" href="http://54.77.136.103:8000/resonance">Listen live to Resonance104.4fm</a></div>
 
   <table id="main">
     <tr>

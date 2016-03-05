@@ -13,7 +13,7 @@ class Resonance
     public $oldDate;
     private $calendar = 'calendar.json';
     //public $stream = 'http://icecast.commedia.org.uk:8000/resonance_hi.mp3';
-    public $stream = 'http://radio.canstream.co.uk:8004/live.mp3';
+    public $stream = 'http://54.77.136.103:8000/resonance';
 
     /**
      * Constructor
